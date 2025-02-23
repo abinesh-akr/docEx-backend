@@ -62,9 +62,19 @@ if uploaded_file:
         "text": extracted_text,
         "image": img_base64
     })
-    if api_response.status_code == 200:
-        st.success("✅ Successfully processed!")
-    else:
-        st.error("❌ Failed to send results to FastAPI")
 
+@st.cache_data
+def api():
+    from fastapi import FastAPI
+    app = FastAPI()
+
+    @app.post("/process")
+    async def process(file: UploadFile = File(...), doc_type: str = "Aadhar"):
+        return process_document(file, doc_type)
+        
+if api_response.status_code == 200:
+        st.success("✅ Successfully processed!")
+else:
+        st.error("❌ Failed to send results to FastAPI")
+return app
 
