@@ -13,7 +13,7 @@ import threading
 from aadhar import process_aadhar
 from gate import process_gate
 from income import process_income
-
+import requests
 # ✅ Ensure the uploads directory exists
 os.makedirs("uploads", exist_ok=True)
 
