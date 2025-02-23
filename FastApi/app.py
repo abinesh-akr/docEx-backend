@@ -7,32 +7,31 @@ app = FastAPI()
 # ✅ Enable CORS for React and Streamlit
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins (Change this for production)
+    allow_origins=["*"],  # Allow all origins (Change for production)
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
 
-# ✅ Streamlit Backend URL (Update with your actual Streamlit API URL)
-STREAMLIT_API_URL = "https://docex-backend-yjpzesvjjhttbdnp4h8upv.streamlit.app"
+# ✅ Streamlit Backend URL
+STREAMLIT_API_URL = "https://your-streamlit-app.streamlit.app/process"
 
-# ✅ API 1: Receive image from React and forward to Streamlit
 @app.post("/api/upload")
-async def upload_to_streamlit(file: UploadFile = File(...)):
-    """Receives file from React and forwards it to Streamlit"""
-
+async def upload_to_streamlit(file: UploadFile = File(...), doc_type: str = "Aadhar"):
+    """Receives file from React and forwards it to Streamlit for processing"""
+    
     # ✅ Read file data
     files = {"file": (file.filename, file.file, file.content_type)}
 
-    # ✅ Forward file to Streamlit for processing
-    response = requests.post(STREAMLIT_API_URL, files=files)
+    # ✅ Send file and document type to Streamlit
+    response = requests.post(f"{STREAMLIT_API_URL}?doc_type={doc_type}", files=files)
 
     if response.status_code == 200:
         return response.json()
     else:
-        return {"error": "Failed to process image in Streamlit"}
+        return {"error": f"Failed to process {doc_type} in Streamlit"}
 
-# ✅ API 2: Receive processed data from Streamlit and return to React
+# ✅ Receive processed results from Streamlit and return to React
 @app.post("/api/return")
 async def return_to_react(data: dict):
     """Receives processed results from Streamlit and sends them to React"""
