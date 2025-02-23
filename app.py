@@ -69,44 +69,14 @@ if uploaded_file:
         img.seek(0)
         img_base64 = base64.b64encode(img.read()).decode("utf-8")
         st.image(f"data:image/png;base64,{img_base64}", caption="Processed Image", use_column_width=True)
-
-# ✅ FastAPI API for React Frontend
-@api.post("/api/upload")
-async def upload_file(file: UploadFile = File(...), doc_type: str = "Aadhar"):
-    """API for React to send files and get extracted text"""
-    file_path = os.path.join("uploads", file.filename)
-    os.makedirs("uploads", exist_ok=True)
-
-    with open(file_path, "wb") as f:
-        f.write(await file.read())
-
-    extracted_text, output_images = process_uploaded_file(file_path, doc_type)
-
-    # Convert images to base64 for API response
-    images_base64 = []
-    for img in output_images:
-        img.seek(0)
-        images_base64.append(base64.b64encode(img.read()).decode("utf-8"))
-
-    return JSONResponse(content={"text": extracted_text, "images": images_base64, "filename": file.filename})
-
-
-import socket
-import threading
-import uvicorn
-
-def is_port_in_use(port):
-    """Check if the port is already in use"""
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        return s.connect_ex(("127.0.0.1", port)) == 0
-
-def run_api():
-    fastapi_port = 8503  # Change if needed
-    if not is_port_in_use(fastapi_port):
-        uvicorn.run(api, host="0.0.0.0", port=fastapi_port)
+    
+    api_response = requests.post("https://your-fastapi-backend.com/api/return", json={
+        "text": extracted_text,
+        "image": img_base64
+    })
+    if api_response.status_code == 200:
+        st.success("✅ Successfully processed!")
     else:
-        print(f"⚠️ Port {fastapi_port} is already in use. Skipping FastAPI startup.")
+        st.error("❌ Failed to send results to FastAPI")
 
 
-# ✅ Start FastAPI on a Separate Thread
-threading.Thread(target=run_api, daemon=True).start()
