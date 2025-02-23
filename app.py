@@ -71,10 +71,10 @@ def api():
     @app.post("/process")
     async def process(file: UploadFile = File(...), doc_type: str = "Aadhar"):
         return process_document(file, doc_type)
-        
+    return app  
 if api_response.status_code == 200:
         st.success("✅ Successfully processed!")
 else:
         st.error("❌ Failed to send results to FastAPI")
-return app
+
 
