@@ -68,7 +68,7 @@ async def upload_file(file: UploadFile = File(...), doc_type: str = "Aadhar"):
 
 # ✅ Run FastAPI in a Separate Thread (Required for Streamlit Cloud)
 def run_api():
-    uvicorn.run(api, host="0.0.0.0", port=8501)
+    uvicorn.run(api, host="0.0.0.0", port=8502)
 
 # ✅ Start FastAPI on a Separate Thread
 threading.Thread(target=run_api, daemon=True).start()
