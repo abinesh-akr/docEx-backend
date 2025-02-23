@@ -66,9 +66,23 @@ async def upload_file(file: UploadFile = File(...), doc_type: str = "Aadhar"):
 
     return JSONResponse(content={"text": extracted_text, "images": images_base64, "filename": file.filename})
 
-# ✅ Run FastAPI in a Separate Thread (Required for Streamlit Cloud)
+
+import socket
+import threading
+import uvicorn
+
+def is_port_in_use(port):
+    """Check if the port is already in use"""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        return s.connect_ex(("127.0.0.1", port)) == 0
+
 def run_api():
-    uvicorn.run(api, host="0.0.0.0", port=8502)
+    fastapi_port = 8503  # Change if needed
+    if not is_port_in_use(fastapi_port):
+        uvicorn.run(api, host="0.0.0.0", port=fastapi_port)
+    else:
+        print(f"⚠️ Port {fastapi_port} is already in use. Skipping FastAPI startup.")
+
 
 # ✅ Start FastAPI on a Separate Thread
 threading.Thread(target=run_api, daemon=True).start()
