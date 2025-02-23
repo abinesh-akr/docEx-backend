@@ -14,7 +14,7 @@ app.add_middleware(
 )
 
 # ✅ Streamlit Backend URL
-STREAMLIT_API_URL = "https://docex-backend-yjpzesvjjhttbdnp4h8upv.streamlit.app/process"
+STREAMLIT_API_URL = "http://docex-backend-yjpzesvjjhttbdnp4h8upv.streamlit.app/process"
 
 @app.post("/api/upload")
 async def upload_to_streamlit(file: UploadFile = File(...), doc_type: str = "Aadhar"):
