@@ -1,7 +1,7 @@
 FROM python:3.9-slim
 
 # Install Tesseract
-RUN apt-get update && apt-get install -y tesseract-ocr
+RUN apt-get update && apt-get install -y tesseract-ocr && apt install -y oppler-utils
 
 # Install Python dependencies
 COPY requirements.txt .
