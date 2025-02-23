@@ -17,18 +17,6 @@ import requests
 # ✅ Ensure the uploads directory exists
 os.makedirs("uploads", exist_ok=True)
 
-# ✅ Initialize FastAPI
-api = FastAPI()
-
-# ✅ Enable CORS to allow React frontend to access the API
-api.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Allow all domains
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "OPTIONS"],  # Allow necessary HTTP methods
-    allow_headers=["Content-Type", "Authorization"],  # Allow required headers
-)
-
 # ✅ Streamlit UI
 st.title("📑 Document Extraction System")
 st.write("Upload Aadhar, Income, or Gate documents to extract text and images.")
