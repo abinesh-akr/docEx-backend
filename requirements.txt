@@ -1,1 +1,14 @@
 flask
+fastapi[all]
+python-multipart
+uvicorn
+fastapi
+opencv-python-headless
+streamlit
+numpy
+python-Levenshtein
+opencv-python
+opencv-python-headless  # Optional for environments without GUI support
+pdf2image
+unidecode
+pytesseract
