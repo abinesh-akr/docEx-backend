@@ -24,7 +24,7 @@ async def upload_to_streamlit(file: UploadFile = File(...), doc_type: str = "Aad
     files = {"file": (file.filename, file.file, file.content_type)}
 
     # ✅ Send file and document type to Streamlit
-    response = requests.post(f"{STREAMLIT_API_URL}?doc_type={doc_type}", files=files)
+    response = requests.post(f"{STREAMLIT_API_URL}?doc_type={doc_type}", files=files,verify=False)
 
     if response.status_code == 200:
         return response.json()
