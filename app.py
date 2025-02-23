@@ -70,7 +70,7 @@ if uploaded_file:
         img_base64 = base64.b64encode(img.read()).decode("utf-8")
         st.image(f"data:image/png;base64,{img_base64}", caption="Processed Image", use_column_width=True)
     
-    api_response = requests.post("https://your-fastapi-backend.com/api/return", json={
+    api_response = requests.post("https://docex-backend-api.onrender.com/api/return", json={
         "text": extracted_text,
         "image": img_base64
     })
