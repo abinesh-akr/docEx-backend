@@ -45,6 +45,30 @@ def process_uploaded_file(file_path, doc_type):
         return process_income(file_path)
     elif doc_type == "Gate":
         return process_gate(file_path)
+if uploaded_file:
+    file_path = os.path.join("uploads", uploaded_file.name)
+    
+    with open(file_path, "wb") as f:
+        f.write(uploaded_file.getbuffer())
+
+    st.success(f"✅ File saved: {file_path}")
+
+    # Select Document Type
+    option = st.radio("Select Document Type", ["Aadhar", "Income", "Gate"])
+
+    # Process File
+    extracted_text, output_images = process_uploaded_file(file_path, option)
+
+    # ✅ Display Extracted Text
+    st.subheader("📄 Extracted Text:")
+    st.write(extracted_text)
+
+    # ✅ Display Processed Images
+    st.subheader("📸 Processed Images:")
+    for img in output_images:
+        img.seek(0)
+        img_base64 = base64.b64encode(img.read()).decode("utf-8")
+        st.image(f"data:image/png;base64,{img_base64}", caption="Processed Image", use_column_width=True)
 
 # ✅ FastAPI API for React Frontend
 @api.post("/api/upload")
