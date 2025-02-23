@@ -14,7 +14,7 @@ app.add_middleware(
 )
 
 # ✅ Streamlit Backend URL (Update with your actual Streamlit API URL)
-STREAMLIT_API_URL = "https://your-streamlit-app.streamlit.app/process"
+STREAMLIT_API_URL = "https://docex-backend-yjpzesvjjhttbdnp4h8upv.streamlit.app"
 
 # ✅ API 1: Receive image from React and forward to Streamlit
 @app.post("/api/upload")
